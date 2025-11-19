@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+
+# Variables de entorno
+.env
+
+# Logs
+*.log
+
+# Archivos de sistema
+.DS_Store
+
+# Configuración de editor
+.vscode/
+.idea/
