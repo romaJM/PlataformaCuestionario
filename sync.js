@@ -1,3 +1,4 @@
+require('dotenv').config();
 const sequelize = require('./config/conection');
 require('./Models/dificultad'); 
 
