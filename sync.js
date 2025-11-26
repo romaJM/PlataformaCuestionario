@@ -2,6 +2,7 @@ require('dotenv').config();
 const sequelize = require('./config/conection');
 require('./Models/dificultad'); 
 require('./Models/rangoEdad');
+require('./Models/categoria');
 
 
 async function start() {
