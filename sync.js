@@ -1,6 +1,7 @@
 require('dotenv').config();
 const sequelize = require('./config/conection');
 require('./Models/dificultad'); 
+require('./Models/rangoEdad');
 
 
 async function start() {
