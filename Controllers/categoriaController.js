@@ -1,6 +1,6 @@
 const Categoria = require('../Models/categoria');
 
-// GET ALL
+
 const getAllCategorias = async (req, res) => {
   try {
     const categorias = await Categoria.findAll();
@@ -10,7 +10,7 @@ const getAllCategorias = async (req, res) => {
   }
 };
 
-// GET BY ID
+
 const getCategoriaById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -26,20 +26,25 @@ const getCategoriaById = async (req, res) => {
 
 // CREATE
 const createCategoria = async (req, res) => {
-  const { nombre_categoria, descripcion, activo } = req.body;
+  console.log("BODY RECIBIDO:", req.body);
+
   try {
-    const nuevaCategoria = await Categoria.create({
-      nombre_categoria,
-      descripcion,
-      activo
-    });
+    const data = req.body;
+
+    if (Array.isArray(data)) {
+      const categorias = await Categoria.bulkCreate(data);
+      return res.status(201).json(categorias);
+    }
+
+    const nuevaCategoria = await Categoria.create(data);
     res.status(201).json(nuevaCategoria);
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// UPDATE
+
 const updateCategoria = async (req, res) => {
   const { id } = req.params;
 
@@ -57,7 +62,6 @@ const updateCategoria = async (req, res) => {
   }
 };
 
-// DELETE
 const deleteCategoria = async (req, res) => {
   const { id } = req.params;
 
