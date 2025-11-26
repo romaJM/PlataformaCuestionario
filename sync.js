@@ -3,7 +3,7 @@ const sequelize = require('./config/conection');
 require('./Models/dificultad'); 
 require('./Models/rangoEdad');
 require('./Models/categoria');
-
+require('./Models/subcategoria');
 
 async function start() {
   await sequelize.authenticate();
