@@ -4,6 +4,8 @@ require('./Models/dificultad');
 require('./Models/rangoEdad');
 require('./Models/categoria');
 require('./Models/subcategoria');
+require('./Models/usuario');
+require('./Models/rol');
 
 async function start() {
   await sequelize.authenticate();
