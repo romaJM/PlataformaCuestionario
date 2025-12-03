@@ -2,7 +2,7 @@ const Usuario = require('../Models/usuario');
 const Rol = require('../Models/rol');
 const bcrypt = require('bcryptjs');
 
-// GET ALL USERS
+
 const getAllUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.findAll({
@@ -14,26 +14,22 @@ const getAllUsuarios = async (req, res) => {
   }
 };
 
-
-// CREATE USER (Registro)
 const createUsuario = async (req, res) => {
   try {
     const { id_rol, nombre, nombre_usuario, correo, password } = req.body;
 
-    // VALIDACIONES
     if (!id_rol || !nombre || !correo || !password) {
       return res.status(400).json({
         message: "id_rol, nombre, correo y password son obligatorios"
       });
     }
 
-    // Validar correo único
     const existeCorreo = await Usuario.findOne({ where: { correo } });
     if (existeCorreo) {
       return res.status(400).json({ message: "El correo ya está registrado" });
     }
 
-    // Crear usuario (el hook beforeCreate ya hace el hash)
+    // Crear usuario 
     const nuevoUsuario = await Usuario.create({
       id_rol,
       nombre,
@@ -48,7 +44,6 @@ const createUsuario = async (req, res) => {
   }
 };
 
-// UPDATE
 const updateUsuario = async (req, res) => {
   const { id } = req.params;
 
@@ -58,7 +53,6 @@ const updateUsuario = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Si se envía password, hashearlo manualmente
     if (req.body.password) {
       req.body.password = await bcrypt.hash(req.body.password, 10);
     }
@@ -71,7 +65,7 @@ const updateUsuario = async (req, res) => {
   }
 };
 
-// DELETE
+
 const deleteUsuario = async (req, res) => {
   const { id } = req.params;
 

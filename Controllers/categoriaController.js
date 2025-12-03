@@ -31,9 +31,25 @@ const createCategoria = async (req, res) => {
   try {
     const data = req.body;
 
+    //validacion
     if (Array.isArray(data)) {
+      for (let i = 0; i < data.length; i++) {
+        if (!data[i].nombre || typeof data[i].nombre !== "string") {
+          return res.status(400).json({
+            error: `El campo 'nombre' es obligatorio en el objeto ${i + 1}`
+          });
+        }
+      }
+
       const categorias = await Categoria.bulkCreate(data);
       return res.status(201).json(categorias);
+    }
+
+    // validacion 
+    if (!data.nombre || typeof data.nombre !== "string") {
+      return res.status(400).json({
+        error: "El campo 'nombre' es obligatorio y debe ser un texto"
+      });
     }
 
     const nuevaCategoria = await Categoria.create(data);
@@ -45,6 +61,7 @@ const createCategoria = async (req, res) => {
 };
 
 
+
 const updateCategoria = async (req, res) => {
   const { id } = req.params;
 
@@ -52,6 +69,17 @@ const updateCategoria = async (req, res) => {
     const categoria = await Categoria.findByPk(id);
     if (!categoria) {
       return res.status(404).json({ message: 'Categoría no encontrada' });
+    }
+
+    // validacion
+    const { nombre, descripcion } = req.body;
+
+    if (nombre !== undefined) {
+      if (typeof nombre !== "string" || nombre.trim() === "") {
+        return res.status(400).json({
+          error: "El nombre debe ser un texto válido"
+        });
+      }
     }
 
     await categoria.update(req.body);
@@ -62,11 +90,17 @@ const updateCategoria = async (req, res) => {
   }
 };
 
+
 const deleteCategoria = async (req, res) => {
   const { id } = req.params;
 
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "El ID debe ser numérico" });
+  }
+
   try {
     const categoria = await Categoria.findByPk(id);
+
     if (!categoria) {
       return res.status(404).json({ message: 'Categoría no encontrada' });
     }

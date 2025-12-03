@@ -31,7 +31,7 @@ const login = async (req, res) => {
         rol: usuario.Rol.rol
       },
       process.env.JWT_SECRET,
-      { expiresIn: '8h' } // expira en 8 horas (puedes cambiar)
+      { expiresIn: '8h' } //en teoria expira en 8 horas
     );
 
     res.json({
