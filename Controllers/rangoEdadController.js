@@ -1,81 +1,93 @@
-const rangoEdad = require('../Models/rangoEdad.js'); 
-
-
-const getAllRangosEdad = async (req, res) => {
-  try {
-    const rangosEdad = await rangoEdad.findAll();
-    res.json(rangosEdad);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
-const getRangoEdadById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const rango = await rangoEdad.findByPk(id); 
-    if (rango) {
-      res.json(rango);
-    } else {
-      res.status(404).json({ error: 'Rango de edad no encontrado' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const RangoEdad = require('../Models/rangoEdad.js');
 
 
 const createRangoEdad = async (req, res) => {
   const { rango, edadMinima, edadMaxima } = req.body;
+
+  if (!rango || rango.trim() === "" || edadMinima === undefined || edadMaxima === undefined) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Todos los campos son obligatorios'
+    });
+  }
+
   try {
-    const nuevoRango = await rangoEdad.create({ rango, edadMinima, edadMaxima });
-    res.status(201).json(nuevoRango);
+    const nuevoRango = await RangoEdad.create({ rango, edadMinima, edadMaxima });
+    res.status(201).json({ success: true, data: nuevoRango });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ success: false, message: error.errors[0].message });
+    }
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };
 
-
+// Actualizar rango de edad
 const updateRangoEdad = async (req, res) => {
   const { id } = req.params;
   const { rango, edadMinima, edadMaxima } = req.body;
+
+  if (!rango || rango.trim() === "" || edadMinima === undefined || edadMaxima === undefined) {
+    return res.status(400).json({ 
+      success: false, 
+      message: 'Todos los campos son obligatorios'
+    });
+  }
+
   try {
-    const rangoExistente = await rangoEdad.findByPk(id); 
-    if (rangoExistente) {
-      await rangoExistente.update({ rango, edadMinima, edadMaxima });
-      res.json(rangoExistente);
-    } else {
-      res.status(404).json({ error: 'Rango de edad no encontrado' });
-    }
+    const rangoExistente = await RangoEdad.findByPk(id);
+    if (!rangoExistente) return res.status(404).json({ success: false, message: 'Rango de edad no encontrado' });
+
+    await rangoExistente.update({ rango, edadMinima, edadMaxima });
+    res.json({ success: true, data: rangoExistente });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ success: false, message: error.errors[0].message });
+    }
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };
 
+// Obtener todos los rangos de edad
+const getAllRangosEdad = async (req, res) => {
+  try {
+    const rangosEdad = await RangoEdad.findAll();
+    res.json({ success: true, data: rangosEdad });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
 
+// Obtener rango por ID
+const getRangoEdadById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const rango = await RangoEdad.findByPk(id);
+    if (!rango) return res.status(404).json({ success: false, message: 'Rango de edad no encontrado' });
+    res.json({ success: true, data: rango });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
+// Eliminar rango de edad
 const deleteRangoEdad = async (req, res) => {
   const { id } = req.params;
   try {
-    const rango = await rangoEdad.findByPk(id); // Cambié a "rangoEdad" (minúscula)
-    if (rango) {
-      await rango.destroy();
-      res.json({ message: 'Rango de edad eliminado correctamente' });
-    } else {
-      res.status(404).json({ error: 'Rango de edad no encontrado' });
-    }
+    const rango = await RangoEdad.findByPk(id);
+    if (!rango) return res.status(404).json({ success: false, message: 'Rango de edad no encontrado' });
+
+    await rango.destroy();
+    res.json({ success: true, message: 'Rango de edad eliminado correctamente' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };
 
-
-
 module.exports = {
-  getAllRangosEdad,
-  getRangoEdadById,
   createRangoEdad,
   updateRangoEdad,
-  deleteRangoEdad,
-  
+  getAllRangosEdad,
+  getRangoEdadById,
+  deleteRangoEdad
 };

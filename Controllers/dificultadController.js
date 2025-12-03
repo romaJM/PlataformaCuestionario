@@ -1,34 +1,44 @@
 
 
-const Dificultad = require('../Models/dificultad.js'); 
+const Dificultad = require('../Models/dificultad.js');
 
 
 const createDificultad = async (req, res) => {
   try {
     const { tipoDificultad } = req.body;
+
     
-    if (!tipoDificultad) {
+    if (!tipoDificultad || tipoDificultad.trim() === "") {
       return res.status(400).json({
         success: false,
         message: 'El campo tipoDificultad es obligatorio'
       });
     }
 
+   
     const nuevaDificultad = await Dificultad.create({
-      tipoDificultad: tipoDificultad.trim()
+      tipoDificultad
     });
 
     res.status(201).json({
       success: true,
-      message: 'creacion exitosa',
+      message: 'Creación exitosa',
       data: nuevaDificultad
     });
+
   } catch (error) {
+
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({
+        success: false,
+        message: error.errors[0].message
+      });
+    }
+
     console.error('Error al crear dificultad:', error);
     res.status(500).json({
       success: false,
-      message: 'Error en el  servidor',
-      error: error.message
+      message: 'Error interno del servidor'
     });
   }
 };
@@ -44,21 +54,19 @@ const getAllDificultades = async (req, res) => {
       success: true,
       data: dificultades
     });
+
   } catch (error) {
     console.error('Error al obtener dificultades:', error);
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor',
-      error: error.message
+      message: 'Error interno del servidor'
     });
   }
 };
 
-
 const getDificultadById = async (req, res) => {
   try {
     const { id } = req.params;
-
     const dificultad = await Dificultad.findByPk(id);
 
     if (!dificultad) {
@@ -72,16 +80,15 @@ const getDificultadById = async (req, res) => {
       success: true,
       data: dificultad
     });
+
   } catch (error) {
     console.error('Error al obtener dificultad:', error);
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor',
-      error: error.message
+      message: 'Error interno del servidor'
     });
   }
 };
-
 
 const updateDificultad = async (req, res) => {
   try {
@@ -89,7 +96,6 @@ const updateDificultad = async (req, res) => {
     const { tipoDificultad } = req.body;
 
     const dificultad = await Dificultad.findByPk(id);
-
     if (!dificultad) {
       return res.status(404).json({
         success: false,
@@ -97,31 +103,33 @@ const updateDificultad = async (req, res) => {
       });
     }
 
-    if (!tipoDificultad) {
+    if (!tipoDificultad || tipoDificultad.trim() === "") {
       return res.status(400).json({
         success: false,
-        message: 'El campo tipoDificultad es requerido'
+        message: 'El campo tipoDificultad es obligatorio'
       });
     }
 
-    await Dificultad.update(
-      { tipoDificultad: tipoDificultad.trim() },
-      { where: { id } }
-    );
-
-    const dificultadActualizada = await Dificultad.findByPk(id);
+    await dificultad.update({ tipoDificultad });
 
     res.status(200).json({
       success: true,
       message: 'Dificultad actualizada exitosamente',
-      data: dificultadActualizada
+      data: dificultad
     });
+
   } catch (error) {
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({
+        success: false,
+        message: error.errors[0].message
+      });
+    }
+
     console.error('Error al actualizar dificultad:', error);
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor',
-      error: error.message
+      message: 'Error interno del servidor'
     });
   }
 };
@@ -130,7 +138,6 @@ const updateDificultad = async (req, res) => {
 const deleteDificultad = async (req, res) => {
   try {
     const { id } = req.params;
-
     const dificultad = await Dificultad.findByPk(id);
 
     if (!dificultad) {
@@ -140,18 +147,18 @@ const deleteDificultad = async (req, res) => {
       });
     }
 
-    await Dificultad.destroy({ where: { id } });
+    await dificultad.destroy();
 
     res.status(200).json({
       success: true,
       message: 'Dificultad eliminada exitosamente'
     });
+
   } catch (error) {
     console.error('Error al eliminar dificultad:', error);
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor',
-      error: error.message
+      message: 'Error interno del servidor'
     });
   }
 };
