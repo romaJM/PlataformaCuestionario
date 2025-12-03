@@ -8,7 +8,7 @@ const login = async (req, res) => {
   const { correo, password } = req.body;
 
   try {
-    // 1. Buscar usuario
+    // busca usuario
     const usuario = await Usuario.findOne({
       where: { correo },
       include: { model: Rol }
@@ -18,13 +18,13 @@ const login = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // 2. Validar password
+    // validando password
     const validPass = await bcrypt.compare(password, usuario.password);
     if (!validPass) {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    // 3. Crear JWT
+    // crea JWT
     const token = jwt.sign(
       {
         id_usuario: usuario.id_usuario,

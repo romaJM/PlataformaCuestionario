@@ -12,6 +12,7 @@ var categoriaRouter = require('./routes/api/categoria');
 var subcategoriaRouter = require('./routes/api/subcategoria');
 var authRouter = require('./routes/api/auth');
 var verificarToken = require('./middleware/verificarToken');
+var usuariosRouter = require('./routes/api/usuarios');
 
 var app = express();
 
@@ -21,8 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use('/api/login', authRouter); //sin auth
+app.use('/api/login', authRouter); 
 app.use(verificarToken); 
 //ya se protege
 app.use('/', indexRouter);
@@ -31,6 +31,8 @@ app.use('/api/dificultad', dificultadRouter);
 app.use('/api/rangosEdad', rangoEdadRouter);
 app.use('/api/categorias', categoriaRouter);
 app.use('/api/subcategorias', subcategoriaRouter);
+app.use('/api/usuarios', usuariosRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,4 @@
-
-const verifcarRole = (rolesPermitidos = []) => {
+const verificarRole = (rolesPermitidos = []) => {
   return (req, res, next) => {
     if (!req.user)
       return res.status(403).json({ message: "No autenticado" });
@@ -11,4 +10,4 @@ const verifcarRole = (rolesPermitidos = []) => {
   };
 };
 
-module.exports = verifcarRole;
+module.exports = verificarRole;
