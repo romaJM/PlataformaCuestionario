@@ -10,6 +10,8 @@ var dificultadRouter =require('./routes/api/dificultad');
 var rangoEdadRouter=require('./routes/api/rangos');
 var categoriaRouter = require('./routes/api/categoria');
 var subcategoriaRouter = require('./routes/api/subcategoria');
+var authRouter = require('./routes/api/auth');
+var verificarToken = require('./middleware/verificarToken');
 
 var app = express();
 
@@ -19,10 +21,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use('/api/login', authRouter); //sin auth
+app.use(verificarToken); 
+//ya se protege
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/dificultad',dificultadRouter);
-app.use('/api/rangosEdad',rangoEdadRouter);
+app.use('/api/dificultad', dificultadRouter);
+app.use('/api/rangosEdad', rangoEdadRouter);
 app.use('/api/categorias', categoriaRouter);
 app.use('/api/subcategorias', subcategoriaRouter);
 
