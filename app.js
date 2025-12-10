@@ -23,6 +23,7 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/login', authRouter); 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 app.use(verificarToken); 
 //ya se protege

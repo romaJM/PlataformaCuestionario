@@ -4,8 +4,7 @@ var app = require('../app');
 var debug = require('debug')('generadospreguntas:server');
 
 var http = require('http');
-var https = require('https');
-
+var spdy = require('spdy');
 var fs = require('fs');
 
 var portHttp = normalizePort(process.env.HTTP_PORT || '8080');
@@ -13,37 +12,40 @@ var portHttps = normalizePort(process.env.HTTPS_PORT || '3443');
 app.set('port', portHttps);
 
 var options = {
-  key: fs.readFileSync('./cert/key.pem'),
-  cert: fs.readFileSync('./cert/cert.pem'),
-
-  // clave para que Express siga funcionando
+  key: fs.readFileSync('./cert/localhost+2-key.pem'),
+  cert: fs.readFileSync('./cert/localhost+2.pem'),
   allowHTTP1: true
 };
 
-var httpsServer = https.createServer(options, app);
+// HTTPS + HTTP/2 con spdy
+var httpsServer = spdy.createServer(options, app);
 
-
-
+//  HTTP → HTTPS redirect
 var httpServer = http.createServer(function(req, res) {
-  res.writeHead(301, { 'Location': 'https://localhost:' + portHttps + req.url });
+  res.writeHead(301, {
+    Location: 'https://localhost:' + portHttps + req.url
+  });
   res.end();
 });
 
+// Servidores
 httpsServer.listen(portHttps);
 httpServer.listen(portHttp);
 
+// Errores
 httpsServer.on('error', onError);
 httpServer.on('error', onError);
 
+// Logs
 httpsServer.on('listening', function() {
   var addr = httpsServer.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log(' HTTPS servidor escuchando');
+  console.log(' HTTPS + HTTP/2 (spdy) escuchando');
 });
 
 httpServer.on('listening', function() {
-  console.log('📡 HTTP redireccionando a https');
+  console.log(' HTTP redireccionando a HTTPS');
 });
 
 function normalizePort(val) {
@@ -58,10 +60,10 @@ function onError(error) {
   var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' se requiere mas privilegios');
+      console.error(bind + ' se requieren más privilegios');
       process.exit(1);
     case 'EADDRINUSE':
-      console.error(bind + ' listo para usar');
+      console.error(bind + ' ya está en uso');
       process.exit(1);
     default:
       throw error;
