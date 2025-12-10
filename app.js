@@ -23,9 +23,10 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/login', authRouter); 
-app.use(verificarToken); 
-//ya se protege
 app.use('/', indexRouter);
+//app.use(verificarToken); 
+//ya se protege
+//app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/dificultad', dificultadRouter);
 app.use('/api/rangosEdad', rangoEdadRouter);
