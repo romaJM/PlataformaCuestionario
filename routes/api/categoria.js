@@ -9,10 +9,10 @@ const {
   deleteCategoria
 } = require('../../Controllers/categoriaController');
 
-router.post('/', createCategoria);
-router.get('/', getAllCategorias);
+router.delete('/:id', deleteCategoria);
 router.get('/:id', getCategoriaById);
 router.put('/:id', updateCategoria);
-router.delete('/:id', deleteCategoria);
+router.post('/', createCategoria);
+router.get('/', getAllCategorias);
 
 module.exports = router;

@@ -13,6 +13,7 @@ const getAllCategorias = async (req, res) => {
 
 const getCategoriaById = async (req, res) => {
   const { id } = req.params;
+
   try {
     const categoria = await Categoria.findByPk(id);
     if (!categoria) {
@@ -24,6 +25,7 @@ const getCategoriaById = async (req, res) => {
   }
 };
 
+
 // CREATE
 const createCategoria = async (req, res) => {
   console.log("BODY RECIBIDO:", req.body);
@@ -34,7 +36,7 @@ const createCategoria = async (req, res) => {
     //validacion
     if (Array.isArray(data)) {
       for (let i = 0; i < data.length; i++) {
-        if (!data[i].nombre || typeof data[i].nombre !== "string") {
+        if (!data[i].nombre_categoria || typeof data[i].nombre_categoria !== "string") {
           return res.status(400).json({
             error: `El campo 'nombre' es obligatorio en el objeto ${i + 1}`
           });
@@ -46,7 +48,7 @@ const createCategoria = async (req, res) => {
     }
 
     // validacion 
-    if (!data.nombre || typeof data.nombre !== "string") {
+    if (!data.nombre_categoria || typeof data.nombre_categoria !== "string") {
       return res.status(400).json({
         error: "El campo 'nombre' es obligatorio y debe ser un texto"
       });

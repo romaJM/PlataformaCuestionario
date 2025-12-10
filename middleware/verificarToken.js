@@ -9,7 +9,7 @@ const verificarToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET); 
-    req.user = decoded; // Guardamos datos del usuario para usar después
+    req.user = decoded; // guradar dtos usuari
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token inválido" });

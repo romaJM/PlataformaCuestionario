@@ -15,13 +15,13 @@ const login = async (req, res) => {
     });
 
     if (!usuario) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(404).json({ message: 'error al autenticarse' }); ///usuario no encontrado
     }
 
     // validando password
     const validPass = await bcrypt.compare(password, usuario.password);
     if (!validPass) {
-      return res.status(401).json({ message: 'Contraseña incorrecta' });
+      return res.status(401).json({ message: 'error al autenticarse' });//si la contraseña esta mal
     }
 
     // crea JWT
