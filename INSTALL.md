@@ -56,7 +56,7 @@ mkcert -install
 4. CREAR ARCHIVO .env
 
 ---
-* generar el exadecimal poniendo este comando:
+* generar el exadecimal para JWT_SECRET  poniendo este comando:
 
     node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
@@ -95,13 +95,14 @@ node sync.js
 
 ---
 
-7. CREAR ROLES Y EL USUARIO ADMINISTRADOR
+7. CREAR ROLES Y EL USUARIO ADMINISTRADOR 
 
 ---
 
 Ejecutar:
 
-node seeders/index.js
+comando:node seeders/index.js ( para poblar poblar la base de datos)
+   
 
 ---
 
