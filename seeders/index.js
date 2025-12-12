@@ -1,6 +1,8 @@
 const sequelize = require('../config/conection');
 const seedRoles = require('./seederRol');
 const seedUsuarios = require('./seederUsuarios');
+const seedDificultades=require('./seedDificultades');
+const seedRangos=require('./seedRangos');
 
 async function runSeeders() {
   try {
@@ -9,6 +11,8 @@ async function runSeeders() {
 
     await seedRoles();
     await seedUsuarios();
+    await seedDificultades();
+    await seedRangos();
 
     console.log('Todos los seeders ejecutados correctamente');
     process.exit(0);

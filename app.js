@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
 var dificultadRouter =require('./routes/api/dificultad');
 var rangoEdadRouter=require('./routes/api/rangos');
 var categoriaRouter = require('./routes/api/categoria');
@@ -28,7 +28,7 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use(verificarToken); 
 //ya se protege
 
-app.use('/users', usersRouter);
+
 app.use('/api/dificultad', dificultadRouter);
 app.use('/api/rangosEdad', rangoEdadRouter);
 app.use('/api/categorias', categoriaRouter);
