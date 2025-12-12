@@ -57,7 +57,7 @@ get
 
 ---------
 * route:
-https://localhost:3443/api/categorias/1
+https://localhost:3443/api/categorias/4
 * tipo:
 put 
 
@@ -67,7 +67,7 @@ put
 }
 ----------
 * route:
-https://localhost:3443/api/categorias/1
+https://localhost:3443/api/categorias/4
 * tipo:
 delete
 
@@ -118,13 +118,13 @@ get
 
 ----------
 * route:
-https://localhost:3443/api/subcategorias/1
+https://localhost:3443/api/subcategorias/4
 * tipo:
 get
 
 ---------
 * route:
-https://localhost:3443/api/subcategorias/1
+https://localhost:3443/api/subcategorias/4
 * tipo:
 put 
 
@@ -135,7 +135,7 @@ put
 }
 ----------
 * route:
-https://localhost:3443/api/subcategorias/1
+https://localhost:3443/api/subcategorias/4
 * tipo:
 delete
 

@@ -3,6 +3,8 @@ const seedRoles = require('./seederRol');
 const seedUsuarios = require('./seederUsuarios');
 const seedDificultades=require('./seedDificultades');
 const seedRangos=require('./seedRangos');
+const seedCategorias=require('./seedCategorias');
+const seedSubcategorias=require('./seedSubcategorias');
 
 async function runSeeders() {
   try {
@@ -13,6 +15,8 @@ async function runSeeders() {
     await seedUsuarios();
     await seedDificultades();
     await seedRangos();
+    await seedCategorias();
+    await seedSubcategorias();
 
     console.log('Todos los seeders ejecutados correctamente');
     process.exit(0);
