@@ -48,7 +48,7 @@ const updateRangoEdad = async (req, res) => {
   }
 };
 
-// Obtener todos los rangos de edad
+
 const getAllRangosEdad = async (req, res) => {
   try {
     const rangosEdad = await RangoEdad.findAll();
@@ -58,7 +58,6 @@ const getAllRangosEdad = async (req, res) => {
   }
 };
 
-// Obtener rango por ID
 const getRangoEdadById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -70,7 +69,7 @@ const getRangoEdadById = async (req, res) => {
   }
 };
 
-// Eliminar rango de edad
+
 const deleteRangoEdad = async (req, res) => {
   const { id } = req.params;
   try {

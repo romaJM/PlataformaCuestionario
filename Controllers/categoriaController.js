@@ -73,7 +73,6 @@ const updateCategoria = async (req, res) => {
       return res.status(404).json({ message: 'Categoría no encontrada' });
     }
 
-    // validacion
     const { nombre, descripcion } = req.body;
 
     if (nombre !== undefined) {

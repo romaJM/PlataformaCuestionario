@@ -1,6 +1,6 @@
 const Subcategoria = require('../Models/subcategoria');
 
-// GET ALL
+// get todos
 const getAllSubcategorias = async (req, res) => {
   try {
     const subcategorias = await Subcategoria.findAll();
@@ -10,7 +10,7 @@ const getAllSubcategorias = async (req, res) => {
   }
 };
 
-// GET BY ID
+// get por id
 const getSubcategoriaById = async (req, res) => {
   const { id } = req.params;
 

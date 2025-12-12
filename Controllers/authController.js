@@ -1,4 +1,4 @@
-// Controllers/authController.js
+
 const Rol = require('../Models/rol');
 const Usuario = require('../Models/usuario');
 const bcrypt = require('bcryptjs');
@@ -15,16 +15,14 @@ const login = async (req, res) => {
     });
 
     if (!usuario) {
-      return res.status(404).json({ message: 'error al autenticarse' }); ///usuario no encontrado
+      return res.status(404).json({ message: 'error al autenticarse' }); 
     }
 
-    // validando password
     const validPass = await bcrypt.compare(password, usuario.password);
     if (!validPass) {
-      return res.status(401).json({ message: 'error al autenticarse' });//si la contraseña esta mal
+      return res.status(401).json({ message: 'error al autenticarse' });
     }
 
-    // crea JWT
     const token = jwt.sign(
       {
         id_usuario: usuario.id_usuario,
