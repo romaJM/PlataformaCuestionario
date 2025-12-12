@@ -30,7 +30,7 @@ Instalación y Configuración
 
    npm install
 
-3. Crear archivo `.env` en la raíz del proyecto con la configuración de la base de datos y otras variablesse tiene un ejemplo env.example :
+3. Crear archivo `.env` en la raíz del proyecto con la configuración de la base de datos y otras variables  tiene un ejemplo env.example :
  * generar el exadecimal poniendo este comando:
 
     node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
