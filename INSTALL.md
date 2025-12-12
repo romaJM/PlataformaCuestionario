@@ -56,8 +56,11 @@ mkcert -install
 4. CREAR ARCHIVO .env
 
 ---
+* generar el exadecimal poniendo este comando:
 
-En la raíz del proyecto, crear un archivo llamado **.env** con el siguiente contenido genérico:
+    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+* En la raíz del proyecto, crear un archivo llamado **.env** con el siguiente contenido genérico:
 
 DB_HOST=localhost
 DB_USER=usuario
@@ -66,7 +69,7 @@ DB_NAME=nombre_basedatos
 DB_PORT=3306
 PORT=8080
 
-JWT_SECRET=2f9e5db63b0c4d03b41a92c07240e7e6af19a9332c7b3b473cb62cfa
+JWT_SECRET= poner_hexadecimal_generado
 
 * Reemplazar "usuario", "contraseña" y "nombre_basedatos" por los valores reales.
 
@@ -123,3 +126,6 @@ Esto generará los certificados necesarios.
 Desde la raíz del proyecto:
 
 npm start
+---------
+
+si quieres hacer las pruebas de los endpoints, se encuentran en el archivo PRUEBAS-ENDPOINTS.txt para mas facilidad
