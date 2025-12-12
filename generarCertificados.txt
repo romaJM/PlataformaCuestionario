@@ -1,75 +1,59 @@
-INSTRUCCIONES PARA GENERAR CERTIFICADOS HTTPS (Windows + Node.js y express)
+INSTRUCCIONES PARA GENERAR CERTIFICADOS HTTPS CON MKCERT (Windows + Node.js y Express)
 
-Este archivo explica cómo generar los certificados necesarios (key.pem y cert.pem) para ejecutar el proyecto en modo HTTPS.
-
---------------------------------------------------
-1 Instalar OpenSSL (solo la primera vez)
-
-1. Descarga OpenSSL para Windows desde:
-   https://slproweb.com/products/Win32OpenSSL.html
-2. Instala la versión Win64 OpenSSL (OpenSSL 3.6.0 1 Oct 2025 )
-3. Agregar a las variables de entorno la siguiente direccion:
-   - C:\Program Files\OpenSSL-Win64\bin (debe estar todas la terminales cerradas)
-4. Abre PowerShell y verifica que funciona:
-   openssl version
-   (Si aparece algo como OpenSSL 3.x, está correcto)
+Este archivo explica cómo generar los certificados necesarios (key.pem y cert.pem) para ejecutar el proyecto en modo HTTPS usando mkcert.
 
 --------------------------------------------------
-2 Moverse a la carpeta del proyecto
+1 Instalar mkcert
 
-Ejemplo:
+1. Descargar mkcert para Windows desde:
+   https://github.com/FiloSottile/mkcert/releases
+   - Descarga el archivo .exe adecuado para tu sistema (Windows 64-bit).
+   - Coloca mkcert.exe en una carpeta accesible, por ejemplo C:\Herramientas\mkcert.
+   - Opcional: agrega la carpeta a tu PATH para usar mkcert desde cualquier terminal.
+
+--------------------------------------------------
+2 Instalar Root CA local
+
+Abrir PowerShell como administrador y ejecutar:
+   mkcert -install
+
+- Esto crea e instala un Root CA confiable en tu sistema y navegador.
+- Los certificados locales generados serán confiables para Chrome, Firefox y Edge.
+
+--------------------------------------------------
+3  Moverse a la carpeta del proyecto
+
 cd C:\ruta\del\proyecto
 
-Luego entrar a la carpeta donde deben ir los certificados:
-cd cert
-
-(Si no existe, créala)
+Luego entrar a la carpeta donde quieres guardar los certificados:
 mkdir cert
 cd cert
 
 --------------------------------------------------
-3 Generar clave privada y certificado autofirmado
+4 Generar clave privada y certificado local
 
-Ejecutar este comando:
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem
+Ejecutar:
+   mkcert localhost 127.0.0.1 ::1
 
-Durante el proceso OpenSSL pedirá información:
-
-Pregunta                         Qué escribir
--------------------------------------------------
-Country Name (C)                 BO
-State (ST)                        COCHABABA
-Locality (L)                      COCHABAMBA
-Organization (O)                  Miempresa
-Organizational Unit (OU)          Desarrollo
-Common Name (CN)                  localhost
-Email                             tu correo
-
-Este comando genera dos archivos:
-- key.pem → clave privada
-- cert.pem → certificado
-
-Ambos quedarán en la carpeta cert/.
+- Esto genera dos archivos en la carpeta cert/:
+   localhost+2.pem       ← Certificado local confiable
+   localhost+2-key.pem   ← Clave privada asociada
+- Opcional: renombrar a cert.pem y key.pem si quieres mantener consistencia con tu proyecto.
 
 --------------------------------------------------
-4 No subir certificados a GitHub
+5 No subir certificados a GitHub
 
-Los certificados son privados. NO deben subirse al repositorio.
-
-Asegúrate de que en .gitignore esté:
-cert/
-*.pem
-
---------------------------------------------------
-5 Ejecutar el proyecto
-
-Una vez que tengas los archivos:
-npm start
+- Los certificados son privados y específicos de tu máquina.
+- Asegúrate de que tu .gitignore contenga:
+   cert/
+   *.pem
 
 
 --------------------------------------------------
-6 Notas importantes
+6  Notas importantes
 
-- El certificado es solo para desarrollo.
-- El navegador mostrará un aviso de “certificado no seguro”. Es normal porque es autofirmado.
-- No compartir key.pem con nadie fuera del equipo.
+- Los certificados mkcert son solo para desarrollo local.
+- Chrome y otros navegadores los reconocerán como confiables si instalaste correctamente el Root CA.
+- Nunca compartas tu key.pem fuera de tu equipo.
+- Si cambias el nombre de dominio local (ej. de localhost a miapp.local), genera nuevos certificados:
+   mkcert miapp.local
