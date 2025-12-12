@@ -1,0 +1,211 @@
+
+* route:
+https://localhost:3443/api/login
+* tipo:
+post
+
+json 
+
+{
+  "correo": "admin@gmail.com",
+  "password": "12345"
+}
+----------------
+NOTA: tiene que logearse como admin para poder registrar usuarios
+NOTA2: rol = 1 -> es admin
+	rol = 2 -> es evaluador
+	rol = 3 -> es editor
+
+
+* route:
+https://localhost:3443/api/usuarios
+* tipo:
+post
+
+{
+  "id_rol": 3,
+  "nombre": "Stefany",
+  "nombre_usuario": " stefy",
+  "correo": "stefy@gmail.com",
+  "password": "123"
+}
+
+---------------NOTA: a partir de aqui se necesita que tenga el token de cualquier rol
+
+* route:
+https://localhost:3443/api/categorias
+* tipo:
+post
+
+  {
+    "nombre_categoria": "Quimica",
+    "descripcion": "Preguntas sobre sustancias, reacciones químicas y estructura de la materia.",
+    "activo": true
+  }
+
+-----------------
+* route:
+https://localhost:3443/api/categorias
+* tipo:
+get
+
+----------
+* route:
+https://localhost:3443/api/categorias/1
+* tipo:
+get
+
+---------
+* route:
+https://localhost:3443/api/categorias/1
+* tipo:
+put 
+
+{
+  "nombre_categoria": "Quimica Avanzada",
+  "descripcion": "Actualizada correctamente"
+}
+----------
+* route:
+https://localhost:3443/api/categorias/1
+* tipo:
+delete
+
+---------##############
+* route:
+https://localhost:3443/api/subcategorias
+* tipo:
+post
+
+  {
+    "id_categoria": 1,
+    "nombre_subcategoria": "Reacciones químicas",
+    "descripcion": "Estudio de los procesos donde las sustancias se transforman en otras.",
+    "activo": true
+  }
+----------------
+NOTA:tambien lo recive por lotes
+* route:
+https://localhost:3443/api/subcategorias
+* tipo:
+post
+
+[
+  {
+    "id_categoria": 1,
+    "nombre_subcategoria": "Reacciones químicas2",
+    "descripcion": "Estudio de los procesos donde las sustancias se transforman en otras.",
+    "activo": true
+  },
+    {
+    "id_categoria": 1,
+    "nombre_subcategoria": "Reacciones químicas3",
+    "descripcion": "Estudio de los procesos donde las sustancias se transforman en otras.",
+    "activo": true
+  },
+    {
+    "id_categoria": 1,
+    "nombre_subcategoria": "Reacciones químicas4",
+    "descripcion": "Estudio de los procesos donde las sustancias se transforman en otras.",
+    "activo": true
+  }
+]
+-----------------
+* route:
+https://localhost:3443/api/subcategorias
+* tipo:
+get
+
+----------
+* route:
+https://localhost:3443/api/subcategorias/1
+* tipo:
+get
+
+---------
+* route:
+https://localhost:3443/api/subcategorias/1
+* tipo:
+put 
+
+{
+    "nombre_subcategoria": "Reacciones químicas avanzadas",
+    "descripcion": "Actualizado correctamente",
+    "activo": true
+}
+----------
+* route:
+https://localhost:3443/api/subcategorias/1
+* tipo:
+delete
+
+
+======================
+* route:
+https://localhost:3443/api/rangosEdad
+* tipo:
+post
+
+{     
+    "rango": "11-14",
+    "edadMinima": 11, 
+    "edadMaxima": 14 
+}
+----------------
+* route:
+https://localhost:3443/api/rangosEdad
+* tipo:
+get
+
+----------
+* route:
+https://localhost:3443/api/rangosEdad/1
+* tipo:
+put
+
+
+{     
+    "rango": "14-16",
+    "edadMinima": 14, 
+    "edadMaxima": 16 
+}
+---------
+* route:
+https://localhost:3443/api/rangosEdad/1
+* tipo:
+delete
+
+=====================
+
+* route:
+https://localhost:3443/api/dificultad
+* tipo:
+post
+
+{
+  "tipoDificultad": "Fácil"
+}
+----------------
+* route:
+https://localhost:3443/api/dificultad
+* tipo:
+get
+
+----------
+* route:
+https://localhost:3443/api/dificultad/1
+* tipo:
+put
+
+
+{
+  "tipoDificultad": "Dificil"
+}
+
+---------
+* route:
+https://localhost:3443/api/dificultad/1
+* tipo:
+delete
+
+

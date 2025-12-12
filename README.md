@@ -51,6 +51,7 @@ Instalación y Configuración
 
    node seeders/index.js
 
+
 -------------------------------------------------
 
 Certificados HTTPS (opcional)
@@ -90,15 +91,16 @@ Tecnologías Utilizadas
 Estructura del Proyecto (resumen)
 ---------------------------------
 
-/src
-  /controllers
-  /models
-  /routes
-  /middlewares
+bin/
 cert/
+Controllers/
+Models/
+routes/
+middlewares/
+seeders/
 .env
 sync.js
-seeders/
-
+app.js
 -------------------------------------------------
 
+si quieres hacer las pruebas de los endpoints, se encuentran en el archivo PRUEBAS-ENDPOINTS.txt 
