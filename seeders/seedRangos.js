@@ -10,11 +10,6 @@ async function seedRangos() {
         rango: '13-15',
         edadMinima:13,
         edadMaxima:18 
-    },
-
-    {  rango: '16-18',
-        edadMinima:16,
-        edadMaxima:18 
     }
   ], { ignoreDuplicates: true });
 

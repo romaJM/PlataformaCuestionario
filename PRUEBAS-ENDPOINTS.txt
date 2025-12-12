@@ -147,9 +147,9 @@ https://localhost:3443/api/rangosEdad
 post
 
 {     
-    "rango": "11-14",
-    "edadMinima": 11, 
-    "edadMaxima": 14 
+    "rango": "16-17",
+    "edadMinima": 16, 
+    "edadMaxima": 17 
 }
 ----------------
 * route:
@@ -165,9 +165,9 @@ put
 
 
 {     
-    "rango": "14-16",
-    "edadMinima": 14, 
-    "edadMaxima": 16 
+    "rango": "16-18",
+    "edadMinima": 16, 
+    "edadMaxima": 18 
 }
 ---------
 * route:
